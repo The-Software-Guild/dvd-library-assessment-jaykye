@@ -47,7 +47,7 @@ public class DvdLibController {
                         removeDvd();
                         break;
                     case 6:
-                        imDone = true;
+                        imDone = true;  // Loop breaks
                         break;
                     default:
                         unknownCommand();
@@ -55,12 +55,12 @@ public class DvdLibController {
             }
         }
         catch (DvdLibDaoException e){
-            view.displayErrorMessage(e.getMessage());
+            view.displayErrorMessage(e.getMessage());  // This can also be in a controller function.
         }
         exitMessage();
     }
 
-    // Methods are not gonna be used outside of controller. --> private
+    // Methods are not going to be used outside of controller. --> private
     private int getMenuSelection(){
         return view.printMenuAndGetSelection();
     }

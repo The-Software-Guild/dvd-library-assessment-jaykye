@@ -13,8 +13,8 @@ public class DvdLibView {
         this.io = io;
     }
 
-    // 여기있는 함수들은 모두 io를 view 클래스로 가려준다. (io는 ioimpl을 가려준다.)
-    // 결과적으로 controller는 io를 보지 못하게 만든다.
+    // Same as in Controller, all the functions "Hides" io functions.
+    // Consequently, controller cannot "See" io.
 
     public int printMenuAndGetSelection(){
         int menuNumber = 0;
