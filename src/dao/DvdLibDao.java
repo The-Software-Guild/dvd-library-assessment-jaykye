@@ -41,7 +41,9 @@ public interface DvdLibDao {
      * Returns null if no such dvd exists
      *
      * @param dvdTitle title of the dvd to retrieve
-     * @return the Dvd object associated after user edit,
+     * @param field the field of dvd object to edit
+     * @param newValue new value for the selected field
+     * @return the Dvd object after user edit,
      * null if no such dvd exists
      */
     Dvd editDvd(String dvdTitle, int field, String newValue) throws DvdLibDaoException;

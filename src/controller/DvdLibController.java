@@ -11,12 +11,16 @@ import ui.UserIOConsoleImpl;
 import java.util.List;
 
 public class DvdLibController {
-    // 여기서도 view의 method를 바로 사용하지 않는다.
-    // 자신의 method로 감싸서 만든다.
+    // Controller has access to view, but does not directly use view methods!!!
+    // Make its own method using view!
 
-    UserIO io = new UserIOConsoleImpl();  // ********* Hard Coded. **************
-    DvdLibView view = new DvdLibView(io); // ********* Hard Coded. **************
-    DvdLibDao dao = new DvdLibDaoFileImpl();
+    private DvdLibView view;
+    private DvdLibDao dao;
+
+    public DvdLibController(DvdLibView view, DvdLibDao dao){
+        this.view = view;
+        this.dao = dao;
+    }
 
     public void run(){
         boolean imDone = false;
@@ -43,7 +47,6 @@ public class DvdLibController {
                         removeDvd();
                         break;
                     case 6:
-                        io.print("Exiting");
                         imDone = true;
                         break;
                     default:
@@ -57,7 +60,7 @@ public class DvdLibController {
         exitMessage();
     }
 
-    // methods are not gonna be used outside of controller. --> private
+    // Methods are not gonna be used outside of controller. --> private
     private int getMenuSelection(){
         return view.printMenuAndGetSelection();
     }

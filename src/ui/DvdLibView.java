@@ -154,7 +154,7 @@ public class DvdLibView {
                     dvd.getNote());
             io.print(dvdInfo);
         } else {
-            io.print("No such student.");
+            io.print("No such dvd.");
         }
         io.readString("Please hit enter to continue.");
     }

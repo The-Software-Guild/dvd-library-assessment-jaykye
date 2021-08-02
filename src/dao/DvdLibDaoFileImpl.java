@@ -32,8 +32,10 @@ public class DvdLibDaoFileImpl implements DvdLibDao {
 
     @Override
     public Dvd editDvd(String dvdTitle, int field, String newValue) throws DvdLibDaoException {
+        // Load data
         loadDvdLib();
-        Dvd dvd = dvds.get(dvdTitle);
+        Dvd dvd = dvds.get(dvdTitle);  // dvd object must be obtained AFTER loading data.
+
         if (dvd != null) {
             switch (field) {
                 case 1:
@@ -51,8 +53,6 @@ public class DvdLibDaoFileImpl implements DvdLibDao {
                 case 5:
                     dvd.setNote(newValue);
                     break;
-                case 6:
-                    break;
             }
         }
         writeDvdLib();
@@ -67,32 +67,24 @@ public class DvdLibDaoFileImpl implements DvdLibDao {
         return removedDvd;
     }
 
+
     // Marshalling and Unmarshalling
 
     private Dvd unmarshallDvd(String dvdAsText){
         // dvdAsText is expecting a line read in from our file.
 
         String[] dvdTokens = dvdAsText.split(DELIMITER);
-
-        // Given the pattern above, the student Id is in index 0 of the array.
         String dvdTitle = dvdTokens[0];
-
-        // Which we can then use to create a new Student object to satisfy
-        // the requirements of the Student constructor.
         Dvd dvdFromFile = new Dvd(dvdTitle);
 
         // Index 1 - Release date
         dvdFromFile.setReleaseDate(dvdTokens[1]);
-
         // Index 2 - MPAA rating
         dvdFromFile.setMpaaRating(dvdTokens[2]);
-
         // Index 3 - Director name
         dvdFromFile.setDirectorName(dvdTokens[3]);
-
         // Index 4 - Studio
         dvdFromFile.setStudio(dvdTokens[4]);
-
         // Index 5 - Note
         dvdFromFile.setNote(dvdTokens[5]);
 
@@ -128,13 +120,7 @@ public class DvdLibDaoFileImpl implements DvdLibDao {
     }
 
     private String marshallDvd(Dvd aDvd){
-        // We need to turn a Student object into a line of text for our file.
-        // For example, we need an in memory object to end up like this:
-        // 4321::Charles::Babbage::Java-September1842
-
-        // It's not a complicated process. Just get out each property,
-        // and concatenate with our DELIMITER as a kind of spacer.
-
+        // Grabs a dvd obj and convert it into a line of string.
         String dvdAsText = aDvd.getTitle() + DELIMITER;
         dvdAsText += aDvd.getReleaseDate() + DELIMITER;
         dvdAsText += aDvd.getMpaaRating() + DELIMITER;
@@ -146,7 +132,7 @@ public class DvdLibDaoFileImpl implements DvdLibDao {
     }
 
     /**
-     * Writes all students in the roster out to a LIBRARYFILE.  See loadDvdLib
+     * Writes all dvds in the dvdlibrary out to a LIBRARYFILE.  See loadDvdLib
      * for file format.
      *
      * @throws DvdLibDaoException if an error occurs writing to the file
@@ -163,15 +149,14 @@ public class DvdLibDaoFileImpl implements DvdLibDao {
             out = new PrintWriter(new FileWriter(LIBRARYFILE));
         } catch (IOException e) {  // RMB this is not userIO it's Java's io.
             throw new DvdLibDaoException(
-                    "Could not save student data.", e);
+                    "Could not save dvd data.", e);
         }
-
 
         String dvdAsText;
         List<Dvd> dvdList = this.getAllDvds();
         for (Dvd currentDvd : dvdList) {
             dvdAsText = marshallDvd(currentDvd);
-            // write the Student object to the file
+            // write the Dvd object to the file
             out.println(dvdAsText);
             // force PrintWriter to write line to the file
             out.flush();
